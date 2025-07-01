@@ -1,0 +1,6 @@
+@Switchcraft.Server.Service_HostAddress = http://localhost:5146
+
+GET {{Switchcraft.Server.Service_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
