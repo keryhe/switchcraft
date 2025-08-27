@@ -7,11 +7,13 @@ public class SwitchInstanceResponse
 {
     public SwitchInstanceResponse()
     {
+        Name = string.Empty;
     }
 
     public SwitchInstanceResponse(SwitchInstance switchInstance)
     {
         Id = switchInstance.Id;
+        Name = switchInstance.Switch?.Name ?? string.Empty;
         IsEnabled = switchInstance.IsEnabled;
         Environment = (switchInstance.Environment != null) ? new EnvironmentResponse(switchInstance.Environment) : null;
         CreatedAt = switchInstance.CreatedAt;
@@ -19,6 +21,8 @@ public class SwitchInstanceResponse
     }
 
     public int Id { get; set; }
+    
+    public string Name { get; set; }
 
     public bool IsEnabled { get; set; }
 

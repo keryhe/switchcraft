@@ -1,7 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace Switchcraft.Server.Web.Data;
+namespace Switchcraft.Server.Api.Data;
 
 public class SwitchcraftDbContext : Switchcraft.Data.SwitchcraftDbContext<SwitchcraftDbContext>
 {

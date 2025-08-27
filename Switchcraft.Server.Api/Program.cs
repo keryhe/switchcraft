@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Switchcraft.Server.DependencyInjection;
 using Switchcraft.Data.DependencyInjection;
-using Switchcraft.Server.Web.Data;
+using Switchcraft.Server.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +16,7 @@ if (string.IsNullOrEmpty(connectionString))
 
 builder.Services.AddSwitchcraftStore<SwitchcraftDbContext>(options =>
 {
-    options.ConfigureDbContext = builder => builder.UseMySQL(connectionString);
+    options.ConfigureDbContext = optionsBuilder => optionsBuilder.UseMySQL(connectionString);
 });
 
 builder.Services.AddSwitchcraftApi(builder.Configuration);
@@ -26,6 +26,12 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
     });
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy => policy.WithOrigins("http://localhost:3000"));
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -41,6 +47,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 app.MapControllers();
-
+app.MapSignalRClient();
 app.Run();

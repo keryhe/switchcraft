@@ -3,6 +3,8 @@ using Switchcraft.Client.Clients;
 using Switchcraft.Client.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Switchcraft.Client.Services.Default;
+using Switchcraft.Client.Workers;
 
 namespace Switchcraft.Client.DependencyInjection;
 
@@ -14,7 +16,7 @@ public static class ServiceCollectionExtensions
         
         services
             .AddTransient<ISwitchService, SwitchService>()
-            .AddSingleton(typeof(CacheSignal<>))
+            .AddSingleton<ILocalCache, LocalCache>()
             .AddTransient<ISwitch, Switch>();
 
 

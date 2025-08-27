@@ -5,6 +5,7 @@ namespace Switchcraft.Server.Controllers.Services;
 
 public interface ISwitchInstanceService
 {
-    Task<InstanceSwitchResponse?> UpdateSwitchInstanceAsync(int id, SwitchInstanceRequest request);
-    Task<IEnumerable<InstanceSwitchResponse>> GetSwitchInstancesAsync(int environmentId, int applicationId);
+    Task<SwitchInstanceResponse?> UpdateSwitchInstanceAsync(int id, SwitchInstanceRequest request);
+    Task<IEnumerable<SwitchInstanceResponse>> GetSwitchInstancesAsync(int environmentId, int applicationId);
+    Task<SwitchInstanceResponse?> GetSwitchInstanceAsync(string name);
 }

@@ -55,7 +55,7 @@ public class Worker : BackgroundService
 
             await Task.Delay(1000, stoppingToken);
 
-            if(await _switch.OnAsync("ShouldRunCode4"))
+            if( _switch.On("ShouldRunCode4"))
             {
                 _logger.LogInformation("ShouldRunCode4 is true");
             }

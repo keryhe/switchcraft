@@ -4,7 +4,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace Switchcraft.Server.Web.Data.Migrations
+namespace Switchcraft.Server.Api.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

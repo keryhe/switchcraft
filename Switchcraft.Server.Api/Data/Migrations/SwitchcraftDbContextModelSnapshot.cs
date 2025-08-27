@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Switchcraft.Server.Web.Data;
+using Switchcraft.Server.Api.Data;
 
 #nullable disable
 
-namespace Switchcraft.Server.Web.Data.Migrations
+namespace Switchcraft.Server.Api.Data.Migrations
 {
     [DbContext(typeof(SwitchcraftDbContext))]
     partial class SwitchcraftDbContextModelSnapshot : ModelSnapshot

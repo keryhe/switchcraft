@@ -49,26 +49,22 @@ public class Switch : ISwitch
 
     private bool IsOn(string name, bool defaultValue = false)
     {
-        bool result = defaultValue;
+        bool result = this.IsOnAsync(name, defaultValue).Result;
         
-        var switchesAsync = _service.GetSwitches(f => f.Name == name);
-        var switches = switchesAsync.ToBlockingEnumerable();
-        foreach(SwitchDto s in switches)
-        {
-            result = s.IsEnabled;
-        }
-
         return result;
     }
 
     private async Task<bool> IsOnAsync(string name, bool defaultValue = false)
     {
-        bool result = defaultValue;
-        
-        var switches = _service.GetSwitches(f => f.Name == name);
-        await foreach(SwitchDto s in switches)
+        bool result;
+        try
         {
-            result = s.IsEnabled;
+            result = await _service.GetSwitchAsync(name);
+        }
+        catch (KeyNotFoundException)
+        {
+            result = defaultValue;
+            _logger.LogError("Switch {name} was not found", name);
         }
 
         return result;

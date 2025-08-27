@@ -9,10 +9,12 @@ namespace Switchcraft.Server.Controllers.Services.Default;
 public class SwitchService : ISwitchService
 {
     private readonly ISwitchcraftDbContext _dbContext;
+    private readonly INotificationService _notificationService;
 
-    public SwitchService(ISwitchcraftDbContext dbContext)
+    public SwitchService(ISwitchcraftDbContext dbContext, INotificationService notificationService)
     {
         _dbContext = dbContext;
+        _notificationService = notificationService;
     }
 
     public async Task<SwitchResponse> CreateSwitchAsync(SwitchRequest request)
@@ -48,10 +50,11 @@ public class SwitchService : ISwitchService
 
         if (result != null)
         {
+            await _notificationService.NotifyIsEnabledChanged(result.SwitchInstances);
             return new SwitchResponse(result);
         }
 
-        throw new Exception("Error creating Flag: " + request.Name);
+        throw new Exception("Error creating Switch: " + request.Name);
     }
 
     public async Task<SwitchResponse?> UpdateSwitchAsync(int id, SwitchRequest request)

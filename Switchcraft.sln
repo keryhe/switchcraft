@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchcraft.Server", "Switc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchcraft.Data", "Switchcraft.Data\Switchcraft.Data.csproj", "{1192C025-F77B-4E0C-B98B-CC98B73A217C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchcraft.Server.Web", "Switchcraft.Server.Web\Switchcraft.Server.Web.csproj", "{29788838-FEEC-4144-AD28-98FA774339F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchcraft.Server.Api", "Switchcraft.Server.Api\Switchcraft.Server.Api.csproj", "{29788838-FEEC-4144-AD28-98FA774339F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{7DCF4D06-C52D-4F4C-8FAB-18C9E314F9C3}"
 EndProject

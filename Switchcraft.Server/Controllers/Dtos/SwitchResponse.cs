@@ -7,6 +7,7 @@ public class SwitchResponse
 {
     public SwitchResponse()
     {
+        Name = string.Empty;
         Instances = new List<SwitchInstanceResponse>();
     }
 
@@ -27,7 +28,7 @@ public class SwitchResponse
 
     public int Id { get; set; }
 
-    public string Name { get; set; } = String.Empty;
+    public string Name { get; set; }
 
     public ApplicationResponse? Application { get; set; }
 
