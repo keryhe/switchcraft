@@ -21,7 +21,7 @@ internal class SwitchService : ISwitchService
         var exists = _cache.TryGetValue(name, out bool result);
         if (!exists)
         {
-            _logger.LogInformation("Switch {name} not found. Calling API...", name);
+            _logger.LogWarning("Switch {name} not found. Calling API...", name);
             var dto = await _client.GetSwitchAsync(name);
 
             if (dto == null)
