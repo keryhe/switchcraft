@@ -17,6 +17,7 @@ public static class ServiceCollectionExtensions
         services
             .AddTransient<ISwitchService, SwitchService>()
             .AddSingleton<ILocalCache, LocalCache>()
+            .AddSingleton<ICacheSignal, CacheSignal>()
             .AddTransient<ISwitch, Switch>();
 
 

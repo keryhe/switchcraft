@@ -28,20 +28,6 @@ namespace Switchcraft.Server.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{name}")]
-        [ProducesResponseType(typeof(SwitchInstanceResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAsync(string name)
-        {
-            var result = await _service.GetSwitchInstanceAsync(name);
-            if (result == null)
-            {
-                return NotFound();
-            }
-            
-            return Ok(result);
-        }
-
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(IEnumerable<SwitchInstanceResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -8,7 +8,6 @@ namespace Switchcraft.Client.Clients;
 internal interface ISwitchClient
 {
     Task<IEnumerable<SwitchDto>> GetSwitchesAsync(int environmentId, int applicationId);
-    Task<SwitchDto?> GetSwitchAsync(string name);
 }
 
 internal class SwitchClient : ISwitchClient
@@ -47,29 +46,5 @@ internal class SwitchClient : ISwitchClient
             _logger.LogError(ex, "GetSwitches failed");
         }
         return result;
-    }
-
-    public async Task<SwitchDto?> GetSwitchAsync(string name)
-    {
-        try
-        {
-            string requestUri = $"api/SwitchInstances/{name}";
-            var response = await _httpClient.GetAsync(requestUri);
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadFromJsonAsync<SwitchDto>();
-                return content;
-            }
-            else
-            {
-                _logger.LogError("GetSwitch failed with status code: {StatusCode}", response.StatusCode);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "GetSwitch failed");
-        }
-        
-        return null;
     }
 }

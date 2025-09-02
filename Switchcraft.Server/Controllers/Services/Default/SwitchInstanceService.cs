@@ -55,18 +55,4 @@ public class SwitchInstanceService : ISwitchInstanceService
 
         return result;
     }
-
-    public async Task<SwitchInstanceResponse?> GetSwitchInstanceAsync(string name)
-    {
-        var instance = await _dbContext.SwitchInstances
-            .Include(f => f.Environment)
-            .Include(f => f.Switch)
-            .SingleOrDefaultAsync(f => f.Switch!.Name == name);
-
-        if (instance != null)
-        {
-            return new SwitchInstanceResponse(instance);
-        }
-        return null;
-    }
 }

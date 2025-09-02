@@ -4,6 +4,7 @@ namespace Switchcraft.Client.Services.Default;
 
 public class LocalCache: ILocalCache
 {
+
     private ConcurrentDictionary<string, bool> _cache;
 
     public LocalCache()
@@ -12,12 +13,18 @@ public class LocalCache: ILocalCache
     }
 
     public void AddOrUpdate(string key, bool value)
-    {
+    { 
         _cache.AddOrUpdate(key, value, (_, oldValue) => value);
     }
 
-    public bool TryGetValue(string key, out bool value)
+    public bool GetValue(string key)
     {
-        return _cache.TryGetValue(key, out value);
+        var result = _cache.TryGetValue(key, out bool value);
+
+        if (!result)
+        {
+            throw new KeyNotFoundException();
+        }
+        return value;
     }
 }

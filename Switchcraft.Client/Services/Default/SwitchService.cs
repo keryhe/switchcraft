@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.Extensions.Logging;
 using Switchcraft.Client.Clients;
 
@@ -6,32 +7,31 @@ namespace Switchcraft.Client.Services.Default;
 internal class SwitchService : ISwitchService
 {
     private readonly ILocalCache _cache; 
-    private readonly ISwitchClient _client;
+    private readonly ICacheSignal _signal;
     private readonly ILogger<SwitchService> _logger;
 
-    public SwitchService(ILocalCache cache, ISwitchClient client, ILogger<SwitchService> logger)
+    public SwitchService(ILocalCache cache, ICacheSignal signal, ILogger<SwitchService> logger)
     {
         _cache = cache;
-        _client = client;
+        _signal = signal;
         _logger = logger;
     }
     
-    public async Task<bool> GetSwitchAsync(string name)
+    public bool GetSwitch(string name, bool defaultValue = false)
     {
-        var exists = _cache.TryGetValue(name, out bool result);
-        if (!exists)
+        _signal.Wait();
+        try
         {
-            _logger.LogWarning("Switch {name} not found. Calling API...", name);
-            var dto = await _client.GetSwitchAsync(name);
-
-            if (dto == null)
-            {
-                throw new KeyNotFoundException();
-            }
-            _cache.AddOrUpdate(name, dto.IsEnabled);
-            return dto.IsEnabled;
+            return _cache.GetValue(name);
         }
-        
-        return result;
+        catch
+        {
+            _logger.LogWarning("Switch '{name}' not found. Using default value '{defaultValue}'", name, defaultValue);
+        }
+        finally
+        {
+            _signal.Release();
+        }
+        return defaultValue;
     }
 }

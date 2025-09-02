@@ -57,7 +57,7 @@ namespace Switchcraft.Server.Controllers
                 return Ok(result);
             }
             
-            return NotFound();
+            return NotFound(); 
         }
 
         [HttpGet]

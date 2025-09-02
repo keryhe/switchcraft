@@ -7,5 +7,5 @@ namespace Switchcraft.Client.Services;
 
 public interface ISwitchService
 {
-    Task<bool> GetSwitchAsync(string name);
+    bool GetSwitch(string name, bool defaultValue);
 }

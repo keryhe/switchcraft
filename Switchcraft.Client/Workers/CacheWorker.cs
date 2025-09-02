@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,16 +14,18 @@ internal class CacheWorker: BackgroundService
 {
     private readonly ISwitchClient _client;
     private readonly ILocalCache _cache;
+    private readonly ICacheSignal _signal;
     private readonly ILogger<CacheWorker> _logger;
     
     private readonly HubConnection _connection;
     private readonly int? _environmentId;
     private readonly int? _applicationId;
     
-    public CacheWorker(ISwitchClient client, ILocalCache cache, IConfiguration configuration, ILogger<CacheWorker> logger)
+    public CacheWorker(ISwitchClient client, ILocalCache cache, IConfiguration configuration, ICacheSignal signal, ILogger<CacheWorker> logger)
     {
         _client = client;
         _cache = cache;
+        _signal = signal;
         _logger = logger;
         
         _environmentId = configuration.GetValue<int>("Switchcraft:EnvironmentId");
@@ -81,12 +84,20 @@ internal class CacheWorker: BackgroundService
     private async Task InitializeCache()
     {
         _logger.LogInformation("Initializing cache.");
-
+        
+        _signal.Wait();
+        
         var switches = await _client.GetSwitchesAsync(_environmentId!.Value, _applicationId!.Value);
-
-        foreach (SwitchDto dto in switches)
+        try
         {
-            _cache.AddOrUpdate(dto.Name, dto.IsEnabled);
+            foreach (SwitchDto dto in switches)
+            {
+                _cache.AddOrUpdate(dto.Name, dto.IsEnabled);
+            }
+        }
+        finally
+        {
+            _signal.Release();
         }
     }
 }
