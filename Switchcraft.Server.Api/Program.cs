@@ -3,8 +3,16 @@ using Switchcraft.Server.DependencyInjection;
 using Switchcraft.Data.DependencyInjection;
 using Switchcraft.Server.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog((context, services, loggerConfiguration) =>
+{
+    loggerConfiguration
+        .Enrich.FromLogContext()
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services);
+});
 
 // Add services to the container.
 
